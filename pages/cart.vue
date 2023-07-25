@@ -45,9 +45,10 @@
 
 <script lang="ts" setup>
 import { useCartStore } from '@/stores/productcart'
+import { CartProduct } from 'types';
 
 const productcart = useCartStore()
-const products = productcart.cartProducts;
+const products: CartProduct[] = productcart.cartProducts;
 
 
 const totalPrice = computed(() => productcart.calculateTotals)
