@@ -10,5 +10,3 @@ export interface Product {
     title: string;
     price: number;
 }
-
-export const NEW_TASK_ID = 0

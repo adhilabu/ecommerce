@@ -20,11 +20,11 @@
   
 <script setup lang="ts">
 import { useCartStore } from '@/stores/productcart'
-import { Product } from '@/types'
+import { CartProduct } from '@/types'
 
 const { product } = defineProps(['product'])
 const productcart = useCartStore()
-const addProduct = (product: Product) => {
+const addProduct = (product: CartProduct) => {
   productcart.addToCart(product)
   setTimeout(() => {
     alert("Product added to the cart!");

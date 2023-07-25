@@ -1,29 +1,27 @@
 // stores/productcart.js
 import { defineStore } from 'pinia'
+import { CartProduct } from '@/types'
 
 export const useCartStore = defineStore('cart', {
     state: () => {
-        return {cartProducts : []}
+        return { cartProducts: [] as CartProduct[] }
     },
 
     getters: {
         calculateTotals: (state) => {
-            let totalPrice = 0;
+            const totalPrice = state.cartProducts.reduce((acc: number, product: CartProduct) => {
+                return acc + (product.price * product.quantity);
+            }, 0)
+            return totalPrice
 
-            for (const cartProduct of state.cartProducts) {
-                totalPrice += cartProduct.price * cartProduct.quantity;
-            }
-
-            // Return the total price rounded to 2 decimal places
-            return totalPrice.toFixed(2);
         },
-        getTotalCartItems:(state) => {
+        getTotalCartItems: (state) => {
             return state.cartProducts.length;
         }
     },
 
     actions: {
-        addToCart(addProduct) {
+        addToCart(addProduct: CartProduct) {
             const existingProduct = this.cartProducts.find(findProduct => findProduct.id === addProduct.id);
 
             if (existingProduct) {
@@ -39,7 +37,7 @@ export const useCartStore = defineStore('cart', {
                 });
             }
         },
-        removeFromCart(removeProduct) {
+        removeFromCart(removeProduct: CartProduct) {
             // Find the index of the product in the cart
             const index = this.cartProducts.findIndex(indexProduct => indexProduct.id === removeProduct.id);
 
