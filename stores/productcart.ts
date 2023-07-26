@@ -2,56 +2,50 @@
 import { defineStore } from 'pinia'
 import { CartProduct } from '@/types'
 
-export const useCartStore = defineStore('cart', {
-    state: () => {
-        return { cartProducts: [] as CartProduct[] }
-    },
+export const useCartStore = defineStore('cart', () => {
 
-    getters: {
-        calculateTotals: (state) => {
-            const totalPrice = state.cartProducts.reduce((acc: number, product: CartProduct) => {
-                return acc + (product.price * product.quantity);
-            }, 0)
-            return totalPrice
+    const cartProducts = ref<CartProduct[]>([]);
 
-        },
-        getTotalCartItems: (state) => {
-            return state.cartProducts.length;
+    // Access the value using .value and convert it to a regular array
+    const calculateTotals = computed(() => cartProducts.value.reduce((acc: number, product: CartProduct) => {
+        return acc + product.price * product.quantity;
+    }, 0));
+
+    const getTotalCartItems = computed(() => cartProducts.value.length)
+
+    function addToCart(addProduct: CartProduct) {
+        const existingProduct = cartProducts.value.find(findProduct => findProduct.id === addProduct.id);
+
+        if (existingProduct) {
+            // If the product already exists in the cart, increase its quantity
+            existingProduct.quantity += 1;
+        } else {
+            // If the product doesn't exist in the cart, add it with a quantity of 1
+            cartProducts.value.push({
+                id: addProduct.id,
+                title: addProduct.title,
+                price: addProduct.price,
+                quantity: 1,
+            });
         }
-    },
+    }
 
-    actions: {
-        addToCart(addProduct: CartProduct) {
-            const existingProduct = this.cartProducts.find(findProduct => findProduct.id === addProduct.id);
+    function removeFromCart(removeProduct: CartProduct) {
+        const index = cartProducts.value.findIndex(indexProduct => indexProduct.id === removeProduct.id);
 
-            if (existingProduct) {
-                // If the product already exists in the cart, increase its quantity
-                existingProduct.quantity += 1;
+        if (index !== -1) {
+            const product = cartProducts.value[index];
+
+            // If the product quantity is greater than 1, decrease the quantity
+            if (product.quantity > 1) {
+                product.quantity -= 1;
             } else {
-                // If the product doesn't exist in the cart, add it with a quantity of 1
-                this.cartProducts.push({
-                    id: addProduct.id,
-                    title: addProduct.title,
-                    price: addProduct.price,
-                    quantity: 1,
-                });
+                // If the product quantity is 1, remove it from the cart
+                cartProducts.value.splice(index, 1);
             }
-        },
-        removeFromCart(removeProduct: CartProduct) {
-            // Find the index of the product in the cart
-            const index = this.cartProducts.findIndex(indexProduct => indexProduct.id === removeProduct.id);
+        }
+    }
 
-            if (index !== -1) {
-                const product = this.cartProducts[index];
+    return { cartProducts, calculateTotals, getTotalCartItems, addToCart, removeFromCart }
 
-                // If the product quantity is greater than 1, decrease the quantity
-                if (product.quantity > 1) {
-                    product.quantity -= 1;
-                } else {
-                    // If the product quantity is 1, remove it from the cart
-                    this.cartProducts.splice(index, 1);
-                }
-            }
-        },
-    },
 })
