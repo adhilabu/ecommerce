@@ -25,17 +25,21 @@
                 </tbody>
             </table>
         </div>
-        <section class="cart-summary bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold mb-4">Cart Summary</h2>
-            <div class="border-t border-gray-300 pt-4">
-                <p class="text-sm text-gray-600">Total Items: <span class="text-black" id="total-items">{{ totalItems }}</span></p>
-                <p class="text-sm text-gray-600">Total Price: $<span class="text-black" id="total-price">{{ totalPrice }}</span></p>
-            </div>
-            <button
-                class="checkout-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 mt-4 rounded-md">
-                Proceed to Checkout
-            </button>
-        </section>
+        <div class="pt-5">
+            <section class="cart-summary bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Cart Summary</h2>
+                <div class="border-t border-gray-300 pt-4">
+                    <p class="text-sm text-gray-600">Total Items: <span class="text-black" id="total-items">{{ totalItems
+                    }}</span></p>
+                    <p class="text-sm text-gray-600">Total Price: $<span class="text-black" id="total-price">{{ totalPrice
+                    }}</span></p>
+                </div>
+                <button
+                    class="checkout-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 mt-4 rounded-md">
+                    Proceed to Checkout
+                </button>
+            </section>
+        </div>
 
     </main>
     <footer>
@@ -54,8 +58,8 @@ const products: CartProduct[] = productcart.cartProducts;
 const totalPrice = computed(() => productcart.calculateTotals)
 const totalItems = computed(() => productcart.getTotalCartItems)
 
-const totalProductPrice = (price:number, qty:number) => {
-    return price*qty
+const totalProductPrice = (price: number, qty: number) => {
+    return price * qty
 }
 </script>
 

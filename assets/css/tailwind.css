@@ -25,4 +25,9 @@ body {
   .tb tr:hover {
     @apply bg-blue-100;
   }
+
+  .success-alert {
+    @apply fixed bottom-20 left-1/2 -translate-x-1/2 p-2 bg-black bg-opacity-50 text-white rounded-lg shadow-md;
+  }
+
 }

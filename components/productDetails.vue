@@ -16,19 +16,26 @@
       </div>
     </div>
   </div>
+  <div class="success-alert" v-show="isProductAdded">
+    {{ message }}
+  </div>
 </template>
   
 <script setup lang="ts">
 import { useCartStore } from '@/stores/productcart'
 import { CartProduct } from '@/types'
 
+const message = ref('Product added to cart');
 const { product } = defineProps(['product'])
 const productcart = useCartStore()
+const isProductAdded: Ref<boolean> = ref(false);
+
 const addProduct = (product: CartProduct) => {
-  productcart.addToCart(product)
+  productcart.addToCart(product);
+  isProductAdded.value = true;
   setTimeout(() => {
-    alert("Product added to the cart!");
-  }, 2000);
+    isProductAdded.value = false;
+  }, 1000); // Hide the alert after 3 seconds (adjust as needed)
 }
 </script>
   

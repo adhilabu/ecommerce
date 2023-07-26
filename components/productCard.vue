@@ -40,15 +40,4 @@ const addProduct = (product: CartProduct) => {
   margin: 0 auto;
 }
 
-.success-alert {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 </style>
